@@ -7,7 +7,7 @@ module.exports = {
         port: '3306',
         user: 'root',
         password: '123456',
-        database: 'exapp',
+        database: 'bingo',
     },
 
     sqlConnect: function (sql, sqlArr, callBack) {
