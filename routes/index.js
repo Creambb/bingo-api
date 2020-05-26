@@ -89,7 +89,7 @@ function getListGoods(req, res) {
 }
 
 function getListCategory(req, res) {
-  var sql = "select catId,catName,catSort,isShow from goods_cats";
+  var sql = "select catId as id,catName as text1,catSort,isShow from goods_cats";
   var sqlArr = [];
   var callBack = (err, data) => {
     if (err) {
