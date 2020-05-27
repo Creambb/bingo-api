@@ -60,9 +60,12 @@ router.get('/getGoods', function (req, res, next) {
 
 });
 
-router.post('/api', function (req, res) {
+router.post('/api/goods', function (req, res) {
   var result = req.body;
   switch (result.cmd) {
+    case 'ListTopGoods':
+      getTopGoods(req, res);
+      break;
     case 'ListGoods':
       getListGoods(req, res);
       break;
@@ -73,8 +76,22 @@ router.post('/api', function (req, res) {
 
 })
 
+function getTopGoods(req, res) {
+  var sql = "select brandId,goodsCatId as categoryId,goodsId,goodsUrl,goodsName,goodsStock,isSale,isOffSale,isHot,isNew,isRecom,shopPrice,saleNum from goods where (isHot = true or isNew = true or isRecom = true) and isSale = true and isOffSale = false";
+  var sqlArr = [];
+  var callBack = (err, data) => {
+    var resData = resolveTopGoods(JSON.parse(JSON.stringify(data)));
+    if (err) {
+      console.log('连接出错');
+    } else {
+      res.send(JSON.stringify(resData))
+    }
+  }
+  dbconfig.sqlConnect(sql, sqlArr, callBack);
+}
+
 function getListGoods(req, res) {
-  var sql = "select brandId,goodsCatId,goodsId,goodsImg,goodsName,goodsStock,isSale,isHot,isNew,isRecom,shopPrice from goods";
+  var sql = "select brandId,goodsCatId as categoryId,goodsId,goodsUrl,goodsName,goodsStock,isSale,isOffSale,shopPrice,saleNum from goods";
   var sqlArr = [];
   var callBack = (err, data) => {
     if (err) {
@@ -89,18 +106,52 @@ function getListGoods(req, res) {
 }
 
 function getListCategory(req, res) {
-  var sql = "select catId,catName,catSort,isShow from goods_cats";
+  var sql = "select catId as id,catName as text1,catSort,isShow from goods_cats";
   var sqlArr = [];
   var callBack = (err, data) => {
+    var resData = {
+      code: 0,
+      code_msg: '',
+      body: {
+        list: data
+      }
+    }
     if (err) {
       console.log('连接出错');
     } else {
-      res.send(JSON.stringify({
-        'list': data
-      }))
+      res.send(JSON.stringify(resData))
     }
   }
   dbconfig.sqlConnect(sql, sqlArr, callBack);
+}
+
+
+
+
+function resolveTopGoods(data) {
+  var hotList = [];
+  var newList = [];
+  var recomList = [];
+  data.forEach(item => {
+    if (item.isHot) {
+      hotList.push(item);
+    }
+    if (item.isNew) {
+      newList.push(item);
+    }
+    if (item.isRecom) {
+      recomList.push(item);
+    }
+  });
+  return {
+    code: 0,
+    code_msg: '',
+    body: {
+      hotList,
+      newList,
+      recomList
+    }
+  }
 }
 
 module.exports = router;
