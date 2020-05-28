@@ -67,14 +67,119 @@ router.post('/api/goods', function (req, res) {
       getTopGoods(req, res);
       break;
     case 'ListGoods':
-      getListGoods(req, res);
+      getCategoryData(req, res);
       break;
     case 'ListCategory':
       getListCategory(req, res);
       break;
   }
-
 })
+
+function getListGoods(req, res, catData, goodsData) {
+  var catData = JSON.parse(JSON.stringify(catData));
+  var goodsData = JSON.parse(JSON.stringify(goodsData));
+  console.log('goods');
+  // console.log(catData);
+  // console.log(goodsData);
+  if (catData && goodsData) {
+    var data = [];
+    // var list = catData.map((item) => {
+    //   var data = JSON.parse(JSON.stringify(item));
+    //   data.goodsList = [];
+    //   goodsData.forEach((goodsItem) => {
+    //     console.log(item.id == goodsItem.categoryId)
+    //     if (item.id == goodsItem.categoryId) {
+    //       console.log('item');
+    //       console.log(goodsItem);
+    //       data.goodsList.push(goodsItem);
+    //     }
+    //   })
+    //   return data;
+    // })
+    catData.map((item) => {
+      item.goodsList = [];
+      goodsData.forEach((goodsItem) => {
+        console.log(item.id == goodsItem.categoryId)
+        if (item.id == goodsItem.categoryId) {
+          console.log('item');
+          console.log(goodsItem);
+          item.goodsList.push(goodsItem);
+        }
+      })
+    })
+    console.log(catData);
+    var response = {
+      code: 0,
+      request_id: 12345,
+      code_msg: "",
+      body: catData
+    }
+    res.send(JSON.stringify(response))
+  }
+}
+
+function getListGoods2(req, res) {
+  // var resData = getGoodsData(req);
+  // if (resData) {
+  var data = {
+    "code": 0,
+    "request_id": 12345,
+    "code_msg": "",
+    "body": [{
+      "id": 000122, // 类型id
+      "navTitle": '文具专区', // 类型名称
+      "isShow": true, // 是否显示
+      "goodsList": [{
+        "brandId": "0001222", // 品牌id
+        "categoryId": "AZ48656", // 种类id
+        "goodsId": "AZ48656", // 商品id
+        "isSale": true, // 是否上架
+        "isOffSale": false, // 是否下架
+        "goodsImg": "../../images/goods/pencil01.jpg", // 商品图片
+        "goodsName": "晨光中性笔", // 商品名称
+        "goodsStock": 200, // 商品库存
+        "shopPrice": 12.6, // 商品价格
+      }, {
+        "brandId": "0001222", // 品牌id
+        "categoryId": "AZ48656", // 种类id
+        "goodsId": "AZ48656", // 商品id
+        "isSale": true, // 是否上架
+        "isOffSale": false, // 是否下架
+        "goodsImg": "../../images/goods/pencil02.jpg", // 商品图片
+        "goodsName": "晨光中性笔", // 商品名称
+        "goodsStock": 200, // 商品库存
+        "shopPrice": 12.6, // 商品价格
+      }]
+    }, {
+      "id": 000122, // 类型id
+      "navTitle": '精品专区', // 类型名称
+      "isShow": true, // 是否显示
+      "goodsList": [{
+        "brandId": "0001222", // 品牌id
+        "categoryId": "AZ48656", // 种类id
+        "goodsId": "AZ48656", // 商品id
+        "isSale": true, // 是否上架
+        "isOffSale": false, // 是否下架
+        "goodsImg": "../../images/goods/pencil01.jpg", // 商品图片
+        "goodsName": "晨光中性笔", // 商品名称
+        "goodsStock": 200, // 商品库存
+        "shopPrice": 12.6, // 商品价格
+      }, {
+        "brandId": "0001222", // 品牌id
+        "categoryId": "AZ48656", // 种类id
+        "goodsId": "AZ48656", // 商品id
+        "isSale": true, // 是否上架
+        "isOffSale": false, // 是否下架
+        "goodsImg": "../../images/goods/pencil02.jpg", // 商品图片
+        "goodsName": "晨光中性笔", // 商品名称
+        "goodsStock": 200, // 商品库存
+        "shopPrice": 12.6, // 商品价格
+      }]
+    }]
+  }
+  res.send(JSON.stringify(data))
+  // }
+}
 
 function getTopGoods(req, res) {
   var sql = "select brandId,goodsCatId as categoryId,goodsId,goodsUrl,goodsName,goodsStock,isSale,isOffSale,isHot,isNew,isRecom,shopPrice,saleNum from goods where (isHot = true or isNew = true or isRecom = true) and isSale = true and isOffSale = false";
@@ -90,43 +195,33 @@ function getTopGoods(req, res) {
   dbconfig.sqlConnect(sql, sqlArr, callBack);
 }
 
-function getListGoods(req, res) {
+function getGoodsData(req, res, catData) {
   var sql = "select brandId,goodsCatId as categoryId,goodsId,goodsUrl,goodsName,goodsStock,isSale,isOffSale,shopPrice,saleNum from goods";
   var sqlArr = [];
   var callBack = (err, data) => {
     if (err) {
       console.log('连接出错');
+      return null;
     } else {
-      res.send(JSON.stringify({
-        'list': data
-      }))
+      getListGoods(req, res, catData, data);
     }
   }
   dbconfig.sqlConnect(sql, sqlArr, callBack);
 }
 
-function getListCategory(req, res) {
-  var sql = "select catId as id,catName as text1,catSort,isShow from goods_cats";
+function getCategoryData(req, res) {
+  var sql = "select catId as id,catName as navTitle,catSort,isShow from goods_cats";
   var sqlArr = [];
   var callBack = (err, data) => {
-    var resData = {
-      code: 0,
-      code_msg: '',
-      body: {
-        list: data
-      }
-    }
     if (err) {
       console.log('连接出错');
+      return null;
     } else {
-      res.send(JSON.stringify(resData))
+      getGoodsData(req, res, data);
     }
   }
   dbconfig.sqlConnect(sql, sqlArr, callBack);
 }
-
-
-
 
 function resolveTopGoods(data) {
   var hotList = [];
