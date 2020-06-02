@@ -72,48 +72,66 @@ router.post('/api/goods', function (req, res) {
     case 'ListCategory':
       getListCategory(req, res);
       break;
+    case 'ListTypesStock':
+      console.log('ListTypesStock')
+      getTypesStock(req, res);
+      break;
+
   }
 })
+
+function getTypesStock(req, res) {
+  var data = req.body.data;
+  var goodsId = data.goodsId;
+  var type = JSON.stringify(data.type);
+  console.log(goodsId);
+  console.log(type);
+  var sql = `select * from goods_specs where goodsId = ${goodsId} and productSpecs = ${type}`;
+  var sqlArr = [];
+  var callBack = (err, data) => {
+    if (err) {
+      console.log('连接出错');
+    } else {
+      res.send(JSON.stringify(data))
+    }
+  }
+  dbconfig.sqlConnect(sql, sqlArr, callBack);
+}
+
+function getTypesStock2(req, res) {
+  // var data = JSON.parse(req.body);
+  console.log(data);
+  var type = JSON.stringify(data.type);
+  // var sql = `select * from goods_specs where goodsId = ${data.goodsId} and productSpecs = ${type}`;
+  var sql = 'select * from goods';
+  var sqlArr = [];
+  var callBack = (err, data) => {
+    if (err) {
+      console.log('连接出错');
+    } else {
+      console.log(data)
+      res.send(JSON.stringify(data))
+    }
+  }
+  dbconfig.sqlConnect(sql, sqlArr, callBack);
+}
 
 function getListGoods(req, res, catData, goodsData) {
   var catData = JSON.parse(JSON.stringify(catData));
   var goodsData = JSON.parse(JSON.stringify(goodsData));
-  console.log('goods');
-  // console.log(catData);
-  // console.log(goodsData);
   if (catData && goodsData) {
     var data = [];
-    // var list = catData.map((item) => {
-    //   var data = JSON.parse(JSON.stringify(item));
-    //   data.goodsList = [];
-    //   goodsData.forEach((goodsItem) => {
-    //     console.log(item.id == goodsItem.categoryId)
-    //     if (item.id == goodsItem.categoryId) {
-    //       console.log('item');
-    //       console.log(goodsItem);
-    //       data.goodsList.push(goodsItem);
-    //     }
-    //   })
-    //   return data;
-    // })
-
     goodsData.forEach((goodsItem) => {
       goodsItem.attributeList = JSON.parse(goodsItem.attributeList);
     })
-
     catData.map((item) => {
       item.goodsList = [];
       goodsData.forEach((goodsItem) => {
-        // goodsItem.attributeList = JSON.parse(goodsItem.attributeList);
         if (item.id == goodsItem.categoryId) {
-          // console.log('item');
-          // console.log(goodsItem);
           item.goodsList.push(goodsItem);
         }
       })
     })
-
-    console.log(catData);
     var response = {
       code: 0,
       request_id: 12345,
