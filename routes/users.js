@@ -2,8 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var userService = require('../api/services/userService');
-const User = require('../api/models/userModel');
-
+const User = require('../api/model/userModel');
 
 
 /* GET users listing. */
