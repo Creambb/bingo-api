@@ -5,8 +5,8 @@ var goods = require('./goods')
 var users = require('./users')
 
 
-router.use('/goods', goods);
-router.use('/users', users);
+router.use('/api/wechat/goods', goods);
+router.use('/api/wechat/users', users);
 
 
 // // 404 page

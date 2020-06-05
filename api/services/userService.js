@@ -1,4 +1,5 @@
-const User = require('../models/userModel');
+// 业务逻辑层，处理数据逻辑
+const User = require('../model/userModel');
 
 const userService = {
     create() {

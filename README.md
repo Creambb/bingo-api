@@ -16,3 +16,11 @@
     npm install mysql2 --save
 ```
 
+### sequelize-auto同步生成数据库表模型models
+
+```
+    npm install -g sequelize-auto
+    npm install -g mysql
+    sequelize-auto -h 数据库的IP地址 -d 数据库名 -u 用户名 -x 密码 -p 端口 -t 表名
+```
+
