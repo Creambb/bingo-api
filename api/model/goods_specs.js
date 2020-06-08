@@ -52,3 +52,4 @@ module.exports = sequelize.define('goods_specs', {
 }, {
     tableName: 'goods_specs'
   });;
+

@@ -1,8 +1,9 @@
 /* jshint indent: 2 */
 const Sequelize = require('sequelize');
 const sequelize = require('../../config/config').sequelize;
+const ChartsModel = require('./charts');
 
-module.exports = sequelize.define('goods', {
+const GoodsModel = sequelize.define('goods', {
   id: {
     type: Sequelize.INTEGER(11),
     allowNull: false,
@@ -184,3 +185,10 @@ module.exports = sequelize.define('goods', {
     freezeTableName: true, // Model tableName will be the same as the model name
     tableName: 'goods'
   });
+
+// GoodsModel.belongsTo(ChartsModel, {
+//   foreignKey: 'id',
+// });
+
+
+module.exports = GoodsModel;
