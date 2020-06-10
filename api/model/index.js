@@ -12,27 +12,30 @@ const Goods = sequelize.import('./goods.js')
 const Charts = sequelize.import('./charts.js')
 const Cats = sequelize.import('./goods_cats.js')
 const Specs = sequelize.import('./goods_specs.js')
+const Orders = sequelize.import('./orders.js')
+const OrderGoods = sequelize.import('./order_goods.js')
+
 
 
 // 表间关联关系
 // Charts关系
 Charts.belongsTo(Goods, {
-  as: 'goods_detail',
+  as: 'goodsDetail',
   foreignKey: 'goodsId',
   targetKey: 'id'
 })
 Goods.hasMany(Charts, {
-  as: 'goods_detail',
+  as: 'goodsDetail',
   foreignKey: 'goodsId',
   targetKey: 'id'
 })
 Charts.belongsTo(Specs, {
-  as: 'goods_specs',
+  as: 'specsDetail',
   foreignKey: 'specsId',
   targetKey: 'id'
 })
 Specs.hasMany(Charts, {
-  as: 'goods_specs',
+  as: 'specsDetail',
   foreignKey: 'specsId',
   targetKey: 'id'
 })
@@ -97,5 +100,5 @@ Cats.hasMany(Goods, {
 // })
 
 module.exports = {
-  Goods, Charts, Cats, Specs
+  Goods, Charts, Cats, Specs, Orders, OrderGoods
 }

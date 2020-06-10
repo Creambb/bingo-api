@@ -4,10 +4,14 @@ var dbconfig = require('../config/db');
 var goods = require('./goods')
 var users = require('./users')
 var charts = require('./charts')
+var orders = require('./orders')
+
 
 router.use('/api/wechat/goods', goods);
 router.use('/api/wechat/users', users);
 router.use('/api/wechat/charts', charts);
+router.use('/api/wechat/orders', orders);
+
 
 
 

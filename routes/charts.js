@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const ChartsCtrl = require('../api/controller/ChartsCtrl');
+const ChartsCtrl = require('../api/controller/chartsCtrl');
 
 
 const ChartsModel = require('../api/model/charts');
