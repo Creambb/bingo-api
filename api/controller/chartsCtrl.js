@@ -28,6 +28,22 @@ const ChartsCtrl = {
         return response;
     },
 
+    async updateCharts(reqBody) {
+        var params = reqBody.body;
+        var list = await ChartsService.updateCharts(params);
+        var response = getResData();
+        response.body = list;
+        return response;
+    },
+
+    async clearCharts(reqBody) {
+        var params = reqBody.body;
+        var list = await ChartsService.clearCharts(params);
+        var response = getResData();
+        response.body = list;
+        return response;
+    },
+
 }
 
 module.exports = ChartsCtrl

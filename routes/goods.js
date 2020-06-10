@@ -17,6 +17,9 @@ router.post('/', async function (req, res, next) {
         case 'ListTopGoods':
             resData = await GoodsCtrl.listTopGoods(req, res);
             break;
+        // case 'ListCategoryGoods':
+        //     resData = await GoodsCtrl.ListCategoryGoods(req, res);
+        //     break;
         case 'ListGoods':
             resData = await GoodsCtrl.listGoods(req, res);
             break;
