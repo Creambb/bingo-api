@@ -4,20 +4,16 @@ const SpecsDao = require('../dao/SpecsDao');
 
 const goodsService = {
     async findGoods() {
-        var goodsAttrs = ['goodsId', 'goodsName', 'goodsImg', 'catId', 'brandId', 'isSale', 'isOffSale', 'shopPrice', 'saleNum', 'attributeList']
+        var list = [];
         var catsAttrs = ['id', 'catName', 'catSort', 'isShow'];
-        var catsList = await CatsDao.findCats(catsAttrs);
-        var goodsList = await GoodsDao.findGoods(goodsAttrs);
-        if (catsList && goodsList) {
-            catsList.map((catItem) => {
-                catItem.goodsList = [];
-                goodsList.forEach((goodsItem) => {
-                    if (catItem.id == goodsItem.catId) {
-                        catItem.goodsList.push(goodsItem);
-                    }
-                })
-            })
-        }
+        var catsList = await CatsDao.findCatsGoods(catsAttrs);
+        catsList.forEach((item) => {
+            if (item.goodsList.length !== 0) {
+                list.push(item);
+            }
+        })
+        // console.log('list');
+        // console.log(list);
         return catsList;
     },
 
@@ -29,8 +25,8 @@ const goodsService = {
             newList: [],
             recomList: [],
         }
-        console.log('goodsList');
-        console.log(goodsList);
+        // console.log('goodsList');
+        // console.log(goodsList);
         goodsList.forEach(item => {
             item.isHot && obj.hotList.push(item);
             item.isNew && obj.newList.push(item);

@@ -3,19 +3,17 @@ const ChartsModel = require('../model/charts');
 const GoodsModel = require('../model/goods');
 const SpecsModel = require('../model/goods_specs');
 
-const { Goods, Charts, Specs } = require('../model/index.js')
-
 
 const chartsDao = {
 
     async findCharts(where) {
         // User.sync().then(function () {
         // Table created
-        return await Charts.findAll({
+        return await ChartsModel.findAll({
             where,
         }).then(function (projects) {
             return JSON.parse(JSON.stringify(projects));
-        });
+        });;
         // });
     },
 
@@ -23,18 +21,16 @@ const chartsDao = {
     async findChartsGoods(where) {
         // User.sync().then(function () {
         // Table created
-        return await Charts.findAll({
+        return await ChartsModel.findAll({
             where,
             include: [
                 { // include关键字表示关联查询
-                    model: Goods, // 指定关联的model
-                    as: 'goods_detail', // 别名                                            
-                    attributes: ['goodsName', 'goodsImg', 'shopPrice'],
+                    model: GoodsModel, // 指定关联的model
+                    attributes: ['goodsName', 'goodsImg', 'shopPrice'], // 这里的attributes属性表示查询class表的name和rank字段，其中对name字段起了别名className
                 },
                 { // include关键字表示关联查询
-                    model: Specs, // 指定关联的model
-                    as: 'goods_specs', // 别名                        
-                    attributes: [['id', 'specs_id'], 'goodsSpecs', 'goodsStock'],
+                    model: SpecsModel, // 指定关联的model
+                    attributes: ['goodsSpecs', 'goodsStock'], // 这里的attributes属性表示查询class表的name和rank字段，其中对name字段起了别名className
                 }
             ],
         }).then(function (projects) {
@@ -44,29 +40,19 @@ const chartsDao = {
     },
 
 
-    async insertToCharts(options) {
-        // User.sync().then(function () {
-        // Table created
-        return await Charts.create(options).then(function (projects) {
-            return JSON.parse(JSON.stringify(projects));
-        });;
-        // });
-    },
-
-
     async updateCharts(obj, where) {
         // User.sync().then(function () {
         // Table created
-        return await Charts.update(obj, { where }).then(function (projects) {
+        return await ChartsModel.update(obj, { where }).then(function (projects) {
             return JSON.parse(JSON.stringify(projects));
         });;
         // });
     },
 
-    async destroyCharts(where) {
+    async insertToCharts(options) {
         // User.sync().then(function () {
         // Table created
-        return await Charts.destroy({ where }).then(function (projects) {
+        return await ChartsModel.create(options).then(function (projects) {
             return JSON.parse(JSON.stringify(projects));
         });;
         // });

@@ -16,7 +16,20 @@ router.post('/', async function (req, res, next) {
             break;
         case 'ListChartGoods':
             resData = await ChartsCtrl.ListChartGoods(reqBody, res);
+            console.log('resData');
+            console.log(resData);
             break;
+        case 'UpdateCharts':
+            resData = await ChartsCtrl.updateCharts(reqBody, res);
+            console.log('resData');
+            console.log(resData);
+            break;
+        case 'ClearCharts':
+            resData = await ChartsCtrl.clearCharts(reqBody, res);
+            console.log('resData');
+            console.log(resData);
+            break;
+
     }
     //  data = await ChartsCtrl.findGoods();
     res.send(JSON.stringify(resData));
