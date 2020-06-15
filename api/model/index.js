@@ -8,6 +8,7 @@ const config = require('../config.js');
 const sequelize = new Sequelize(config)
 
 // 导入模型统一管理
+const Users = sequelize.import('./users.js')
 const Goods = sequelize.import('./goods.js')
 const Charts = sequelize.import('./charts.js')
 const Cats = sequelize.import('./goods_cats.js')
@@ -100,5 +101,5 @@ Cats.hasMany(Goods, {
 // })
 
 module.exports = {
-  Goods, Charts, Cats, Specs, Orders, OrderGoods
+  Users, Goods, Charts, Cats, Specs, Orders, OrderGoods
 }
