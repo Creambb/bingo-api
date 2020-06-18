@@ -1,7 +1,4 @@
 // 业务逻辑层，处理数据逻辑
-const User = require('../model/usersModel');
-
-
 const UsersDao = require('../dao/usersDao');
 
 const usersService = {

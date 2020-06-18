@@ -2,7 +2,7 @@
 // 数据访问层，从数据库中查数据
 const { Users } = require('../model/index.js')
 
-const Users = {
+const UsersDao = {
 
     async insertUsers(options) {
         // User.sync().then(function () {
@@ -26,6 +26,6 @@ const Users = {
 
 }
 
-module.exports = Users
+module.exports = UsersDao
 
 
