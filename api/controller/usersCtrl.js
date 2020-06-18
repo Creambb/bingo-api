@@ -1,5 +1,5 @@
 // 视图控制层，写接口响应
-const UserService = require('../services/userService');
+const UsersService = require('../services/usersService');
 
 function getResData() {
     return {
@@ -14,7 +14,7 @@ const ChartsCtrl = {
 
     async submitOrder(reqBody) {
         var params = reqBody.body;
-        var list = await UserService.submitOrder(params);
+        var list = await UsersService.submitOrder(params);
         var response = getResData();
         response.body = list;
         return response;

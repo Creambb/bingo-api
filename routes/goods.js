@@ -32,7 +32,7 @@ router.post('/', async function (req, res, next) {
             break;
     }
     //  data = await GoodsCtrl.findGoods();
-    res.send(JSON.stringify(resData));
+    res.json(resData);
 });
 
 module.exports = router;

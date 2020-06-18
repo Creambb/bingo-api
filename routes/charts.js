@@ -2,9 +2,7 @@ var express = require('express');
 var router = express.Router();
 const ChartsCtrl = require('../api/controller/chartsCtrl');
 
-
 const ChartsModel = require('../api/model/charts');
-
 
 router.post('/', async function (req, res, next) {
     console.log(res.body);
@@ -29,10 +27,9 @@ router.post('/', async function (req, res, next) {
             console.log('resData');
             console.log(resData);
             break;
-
     }
     //  data = await ChartsCtrl.findGoods();
-    res.send(JSON.stringify(resData));
+    res.json(resData);
 });
 
 module.exports = router;
