@@ -13,7 +13,6 @@ router.post('/', async function (req, res, next) {
       resData = await UsersCtrl.addToCharts(reqBody, res);
       break;
   }
-  //  data = await ChartsCtrl.findGoods();
   res.json(resData);
 });
 
