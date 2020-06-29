@@ -11,10 +11,13 @@ router.post('/', async function (req, res, next) {
             resData = await OrdersCtrl.submitOrder(reqBody, res);
             break;
         case 'PayOrder':
-            resData = await OrdersCtrl.addToCharts(reqBody, res);
+            resData = await OrdersCtrl.PayOrder(reqBody, res);
+            break;
+        // 列出订单
+        case 'ListOrders':
+            resData = await OrdersCtrl.ListOrders(reqBody, res);
             break;
     }
-    //  data = await ChartsCtrl.findGoods();
     res.json(resData);
 });
 
