@@ -9,9 +9,6 @@ router.post('/', async function (req, res, next) {
     case 'Register':
       resData = await UsersCtrl.submitOrder(reqBody, res);
       break;
-    case 'PayOrder':
-      resData = await UsersCtrl.addToCharts(reqBody, res);
-      break;
   }
   res.json(resData);
 });
